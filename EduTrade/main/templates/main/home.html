@@ -1,0 +1,80 @@
+<!-- templates/main/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EduTrade | Learning & Resource Exchange</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+</style>
+
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">EduTrade</a>
+            <div class="ml-auto">
+                <a href="{% url 'login' %}" class="btn btn-outline-light">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-5 text-center bg-primary text-white">
+        <div class="container">
+            <h1>Welcome to EduTrade</h1>
+            <p class="lead">A learning platform to exchange knowledge, courses, and academic resources.</p>
+            <a href="{% url 'login' %}" class="btn btn-light btn-lg mt-3">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Feature Cards -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                           <h5 class="card-title">🎓 TeachMate</h5>
+                           <p class="card-text">Be a tutor, be a learner. Teach what you know, learn what you love — from real students with real experience.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <!--<h5 class="card-title">🔄 Resource Exchange</h5>-->
+                            <h5 class="card-title">📦 ShareStation</h5>
+                            <p class="card-text">Give what you’ve used. Get what you need. Share resources to help others grow — all within your campus.</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">💬 DoubtDesk</h5>
+                            <p class="card-text">Enrolled in a course? Ask questions, share answers, and join discussions — directly with fellow learners and tutors.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center bg-dark text-white py-3">
+        &copy; 2025 EduTrade. All rights reserved.
+    </footer>
+</body>
+</html>
