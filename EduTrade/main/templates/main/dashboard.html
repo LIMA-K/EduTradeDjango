@@ -1,0 +1,89 @@
+<!-- dashboard.html --><head><!-- Bootstrap CSS CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+{% comment %} <h2>Welcome to EduTrade Dashboard, {{ user.username }}!</h2>
+
+{% if is_tutor %}
+    <p>You are registered as a <strong>Tutor</strong>.</p>
+    <a href="#">📚 Upload a Course</a><br>
+    <a href="#">👨‍🏫 Manage Your Courses</a>
+{% else %}
+    <p>You are logged in as a <strong>Student</strong>.</p>
+    <a href="#">🎓 View Available Courses</a><br>
+    <a href="#">🔄 Exchange Books & Materials</a>
+{% endif %}
+
+<hr>
+<a href="{% url 'logout' %}">Logout</a> {% endcomment %}
+</head>
+<!-- templates/main/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EduTrade Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Welcome to EduTrade Dashboard, {{ user.username }}!</h2>
+        {% if is_tutor %}
+            <p class="lead">You are registered as a <strong>Tutor</strong>.</p>
+        {% else %}
+            <p class="lead">You are logged in as a <strong>Student</strong>.</p>
+        {% endif %}
+    </div>
+
+    <div class="row justify-content-center">
+        {% if is_tutor %}
+            <!-- Upload a Course -->
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">📚 Upload a Course</h5>
+                        <a href="#" class="btn btn-primary mt-2">Upload</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Courses -->
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">👨‍🏫 Manage Your Courses</h5>
+                        <a href="#" class="btn btn-secondary mt-2">Manage</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <!-- View Available Courses -->
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">🎓 View Available Courses</h5>
+                        <a href="#" class="btn btn-success mt-2">View</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exchange Books -->
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">🔄 Exchange Books & Materials</h5>
+                        <a href="#" class="btn btn-info mt-2 text-white">Exchange</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+{% extends 'main/base.html' %}
+{% load form_filters %}
+{% block title %}Register as Tutor | EduTrade{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center">
+                <h4>Register as a Tutor</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    {% if user_form.errors or profile_form.errors %}
+                        <div class="alert alert-danger">
+                            {% for field in user_form %}
+                                {% for error in field.errors %}
+                                    <div>{{ field.label }}: {{ error }}</div>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in user_form.non_field_errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+
+                            {% for field in profile_form %}
+                                {% for error in field.errors %}
+                                    <div>{{ field.label }}: {{ error }}</div>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in profile_form.non_field_errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <h5 class="text-center">Account Details</h5>
+                    {% for field in user_form %}
+                        <div class="mb-3 text-center">
+                            {{ field.label_tag }}
+                            {{ field|add_class:"form-control w-75 mx-auto" }}
+                        </div>
+                    {% endfor %}
+
+                    <h5 class="text-center mt-4">Tutor Profile</h5>
+                    {% for field in profile_form %}
+                        <div class="mb-3 text-center">
+                            {{ field.label_tag }}
+                            {{ field|add_class:"form-control w-75 mx-auto" }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                Already have an account? <a href="{% url 'login' %}">Login here</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
