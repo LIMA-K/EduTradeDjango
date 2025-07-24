@@ -126,3 +126,9 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/login/'
 AUTH_USER_MODEL = 'main.CustomUser'
 # ✅ Custom user model
+from pathlib import Path
+import os
+
+MEDIA_URL = '/course_materials/'
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+MEDIA_ROOT = os.path.join(BASE_DIR, 'course_materials')

@@ -1,9 +1,7 @@
-from django.contrib import admin
-
 # Register your models here.
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, TutorProfile
+from .models import CustomUser, TutorProfile,Course
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -29,3 +27,9 @@ class CustomUserAdmin(UserAdmin):
 class TutorProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'phone_number', 'department')
     search_fields = ('user__username', 'phone_number', 'department')
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('title', 'tutor', 'created_at')
+    search_fields = ('title', 'tutor__username')
+    list_filter = ('created_at', 'tutor')

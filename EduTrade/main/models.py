@@ -30,3 +30,14 @@ class TutorProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - Tutor"
+# Step 3: Course Model
+class Course(models.Model):
+    tutor = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'is_tutor': True})
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    video_link = models.URLField(blank=True, null=True)
+    material = models.FileField(upload_to='', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
