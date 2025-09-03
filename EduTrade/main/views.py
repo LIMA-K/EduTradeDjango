@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import TutorRegisterForm,TutorProfileForm,CourseForm
-from .models import Course 
+from .models import Course ,Enrollment
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 # Home view
@@ -107,3 +107,26 @@ def delete_course(request, course_id):
     course = get_object_or_404(Course, id=course_id, tutor=request.user)
     course.delete()
     return redirect('manage_course')
+# View available courses for students
+def available_courses(request):
+    courses = Course.objects.all()
+
+    enrolled_courses = Enrollment.objects.filter(student=request.user).values_list("course_id", flat=True)
+
+    for course in courses:
+        course.is_enrolled = course.id in enrolled_courses
+
+    return render(request, "student/available_courses.html", {"courses": courses})
+# Render the courses in a template
+@login_required
+def enroll_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    # check if already enrolled
+    if Enrollment.objects.filter(student=request.user, course=course).exists():
+        messages.warning(request, "⚠️ You are already enrolled in this course.")
+    else:
+        Enrollment.objects.create(student=request.user, course=course)
+        messages.success(request, f"✅ You have successfully enrolled in {course.title}!")
+
+    return redirect("available_courses")  # go back to the course list

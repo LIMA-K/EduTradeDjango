@@ -1,0 +1,41 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Available Courses{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Available Courses</h2>
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-4 mb-4"> 
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-center text-muted mb-2" style="height:150px; background:#f8f9fa; display:flex; align-items:center; justify-content:center;">
+                        No Image
+                    </div>
+                    <h5 class="card-title">{{ course.title }}</h5>
+                    <p class="card-text">
+                        {{ course.description|truncatewords:20 }}
+                    </p>
+                    {% if course.youtube_link %}
+                        <a href="{{ course.youtube_link }}" target="_blank" class="d-block mb-1 text-primary">▶ Watch Video</a>
+                    {% endif %}
+                    {% if course.pdf %}
+                        <a href="{{ course.pdf.url }}" target="_blank" class="d-block mb-2 text-success">📄 Download PDF</a>
+                    {% endif %}
+
+                    <!-- Student action button -->
+                    {% if course.is_enrolled %}
+                        <button class="btn btn-sm btn-secondary" disabled>Enrolled</button>
+                    {% else %}
+                        <a href="{% url 'enroll_course' course.id %}" class="btn btn-sm btn-success">Enroll</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No courses available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
