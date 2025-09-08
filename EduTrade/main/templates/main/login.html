@@ -1,45 +1,68 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block title %}Login | EduTrade{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/login.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="d-flex justify-content-center align-items-center" style="min-height: 85vh;">
-    
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header bg-dark text-white text-center">
-                <h4>Login to EduTrade</h4>
-            </div>
-            <div class="card-body">
-                <form method="POST">
-                    {% csrf_token %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card login-card shadow-lg">
+        <div class="card-header text-center text-white login-header">
+            <h3><i class="fas fa-graduation-cap"></i> EduTrade</h3>
+            <small>Login to your account</small>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
 
-                    {% if form.errors %}
-                        <div class="alert alert-danger">
-                            {% for error in form.non_field_errors %}
-                                <div>{{ error }}</div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-
-                    <div class="mb-3">
-                        {{ form.username.label_tag }}
-                        {{ form.username }}
+                <!-- Username/Email -->
+                <div class="form-group mb-3">
+                    <label for="username">Username or Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" name="username" id="username" class="form-control" placeholder="Enter your username or email" required>
                     </div>
+                </div>
 
-                    <div class="mb-3">
-                        {{ form.password.label_tag }}
-                        {{ form.password }}
+                <!-- Password -->
+                <div class="form-group mb-2">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" required>
+                        <span class="input-group-text"><i class="fas fa-eye"></i></span>
                     </div>
+                </div>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Login</button>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
                     </div>
-                </form>
-            </div>
-            <div class="card-footer text-center">
-                Want to teach? <a href="{% url 'register' %}">Register as Tutor</a>
-            </div>
+                    <a href="#" class="text-decoration-none">Forgot password?</a>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" class="btn btn-login w-100">Login</button>
+
+                <!-- Divider -->
+                <div class="divider">
+                    <span>Or continue with</span>
+                </div>
+
+                <!-- Social Buttons -->
+                <div class="d-flex justify-content-between">
+                    <a href="#" class="btn btn-google w-50 me-2"><i class="fab fa-google"></i> Google</a>
+                    <a href="#" class="btn btn-facebook w-50"><i class="fab fa-facebook-f"></i> Facebook</a>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <p class="mb-1">Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+            <p class="mb-0">Want to teach? <a href="{% url 'register' %}">Register as Tutor</a></p>
         </div>
     </div>
 </div>

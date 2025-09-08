@@ -1,0 +1,39 @@
+{% extends "main/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">📖 Available Resources</h2>
+
+    <form method="get" class="d-flex mb-4">
+        <input type="text" name="q" class="form-control me-2" 
+               placeholder="Search resources..." value="{{ request.GET.q }}">
+        <button type="submit" class="btn btn-outline-primary">Search</button>
+    </form>
+
+    <a href="{% url 'add_resource' %}" class="btn btn-primary mb-4">➕ Add New Resource</a>
+
+    <div class="row">
+        {% for resource in resources %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                {% if resource.image %}
+                    <img src="{{ resource.image.url }}" class="card-img-top" alt="{{ resource.title }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ resource.title }}</h5>
+                    <p class="card-text text-muted">
+                        {{ resource.get_exchange_type_display }} | {{ resource.get_category_display }}
+                    </p>
+                    <a href="{% url 'resource_detail' resource.pk %}" class="btn btn-outline-secondary">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No resources available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

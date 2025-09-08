@@ -1,0 +1,25 @@
+/* EduTrade Brand Color: Purple */
+.btn-edutrade {
+    background-color: #6f42c1;   /* main purple */
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-edutrade:hover {
+    background-color: #563d7c;   /* darker shade on hover */
+    transform: scale(1.05);     /* small zoom effect */
+}
+
+/* Outline style (for secondary buttons) */
+.btn-edutrade-outline {
+    background-color: transparent;
+    color: #6f42c1;
+    border: 2px solid #6f42c1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-edutrade-outline:hover {
+    background-color: #6f42c1;
+    color: white;
+}

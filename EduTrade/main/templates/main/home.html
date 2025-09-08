@@ -1,70 +1,318 @@
-<!-- templates/main/home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduTrade | Learning & Resource Exchange</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-.card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(5, 5, 5, 0.83);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-</style>
-
+        :root {
+            --primary: #4e73df;
+            --secondary: #6f42c1;
+            --accent: #36b9cc;
+            --light: #f8f9fc;
+            --dark: #2e3a59;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 6rem 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .stats-section {
+            background-color: var(--light);
+            padding: 4rem 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .testimonial-section {
+            padding: 5rem 0;
+            background: linear-gradient(to right, #f9f9f9, #f1f5f9);
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            margin: 1rem;
+            height: 100%;
+        }
+        
+        .testimonial-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 4px solid var(--primary);
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            padding: 5rem 0;
+            color: white;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-outline-light {
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-outline-light:hover {
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+            margin: 0 10px;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .navbar {
+            padding: 1rem 0;
+            transition: all 0.3s;
+        }
+        
+        .navbar-dark.bg-dark {
+            background-color: var(--dark) !important;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 4rem 0;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">EduTrade</a>
-            <div class="ml-auto">
-                <a href="{% url 'login' %}" class="btn btn-outline-light">Login</a>
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-graduation-cap me-2"></i>EduTrade
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                </ul>
+                <div class="ms-lg-3 mt-3 mt-lg-0">
+                    <a href="{% url 'login' %}" class="btn btn-outline-light">Login</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary ms-2">Sign Up</a>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="py-5 text-center bg-primary text-white">
+    <section class="hero-section">
         <div class="container">
-            <h1>Welcome to EduTrade</h1>
-            <p class="lead">A learning platform to exchange knowledge, courses, and academic resources.</p>
-            <a href="{% url 'login' %}" class="btn btn-light btn-lg mt-3">Get Started</a>
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <h1 class="display-4 fw-bold mb-4">Exchange Knowledge, Expand Horizons</h1>
+                    <p class="lead mb-4">EduTrade connects learners and educators in a vibrant community where knowledge, courses, and academic resources are shared and exchanged.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="{% url 'register' %}" class="btn btn-light btn-lg">Get Started</a>
+                        <a href="#how-it-works" class="btn btn-outline-light btn-lg">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block text-center">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='350' viewBox='0 0 500 350'%3E%3Cpath fill='%23ffffff' d='M250,100 C320,80 380,120 400,180 C420,240 380,300 300,310 C220,320 150,280 130,220 C110,160 180,120 250,100 Z' opacity='0.2'/%3E%3Ccircle cx='150' cy='150' r='50' fill='%23ffffff' opacity='0.3'/%3E%3Ccircle cx='350' cy='200' r='60' fill='%23ffffff' opacity='0.3'/%3E%3Cpath fill='%23ffffff' d='M200,250 L300,250 L300,270 L200,270 Z' opacity='0.5'/%3E%3Cpath fill='%23ffffff' d='M220,200 L280,200 L280,220 L220,220 Z' opacity='0.5'/%3E%3C/svg%3E" alt="Education Illustration" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">5,000+</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">1,200+</div>
+                    <div class="stat-label">Resources Shared</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">850+</div>
+                    <div class="stat-label">Courses Offered</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Satisfaction Rate</div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Feature Cards -->
-    <section class="py-5 bg-light">
+    <section class="py-5 bg-light" id="features">
         <div class="container">
-            <div class="row text-center">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">How EduTrade Works</h2>
+                <p class="lead text-muted">Three powerful features to enhance your learning experience</p>
+            </div>
+            <div class="row">
                 <div class="col-md-4 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                           <h5 class="card-title">🎓 TeachMate</h5>
-                           <p class="card-text">Be a tutor, be a learner. Teach what you know, learn what you love — from real students with real experience.</p>
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <h5 class="card-title">🎓 TeachMate</h5>
+                            <p class="card-text">Be a tutor, be a learner. Teach what you know, learn what you love — from real students with real experience.</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-3">Learn More</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <!--<h5 class="card-title">🔄 Resource Exchange</h5>-->
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
                             <h5 class="card-title">📦 ShareStation</h5>
-                            <p class="card-text">Give what you’ve used. Get what you need. Share resources to help others grow — all within your campus.</p>
-
+                            <p class="card-text">Give what you've used. Get what you need. Share resources to help others grow — all within your campus.</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-3">Learn More</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
                             <h5 class="card-title">💬 DoubtDesk</h5>
                             <p class="card-text">Enrolled in a course? Ask questions, share answers, and join discussions — directly with fellow learners and tutors.</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-3">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -72,9 +320,180 @@
         </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section class="py-5" id="how-it-works">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Simple Steps to Get Started</h2>
+                <p class="lead text-muted">Join thousands of students and educators on EduTrade</p>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-2 mb-4">
+                   <!-- <img src="8519409.jpg width='500' height='350' viewBox='0 0 500 350'%3E%3Cpath fill='%234e73df' d='M100,250 L150,200 L200,250 L250,150 L300,250 L350,200 L400,250' stroke='%236f42c1' stroke-width='5' fill='none'/%3E%3Ccircle cx='100' cy='250' r='15' fill='%236f42c1'/%3E%3Ccircle cx='150' cy='200' r='15' fill='%236f42c1'/%3E%3Ccircle cx='200' cy='250' r='15' fill='%236f42c1'/%3E%3Ccircle cx='250' cy='150' r='15' fill='%236f42c1'/%3E%3Ccircle cx='300' cy='250' r='15' fill='%236f42c1'/%3E%3Ccircle cx='350' cy='200' r='15' fill='%236f42c1'/%3E%3Ccircle cx='400' cy='250' r='15' fill='%236f42c1'/%3E%3C/svg%3E" alt="How It Works" class="img-fluid"> -->
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <div class="d-flex mb-4">
+                        <div class="me-4">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <span class="fw-bold">1</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Create Your Account</h4>
+                            <p>Sign up as a student, tutor, or both. It's free and takes less than a minute.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-4">
+                        <div class="me-4">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <span class="fw-bold">2</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Set Up Your Profile</h4>
+                            <p>Share your skills, interests, and what you're looking to learn or teach.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-4">
+                        <div class="me-4">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <span class="fw-bold">3</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Start Connecting</h4>
+                            <p>Find learning opportunities, share resources, or ask questions in your courses.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonial-section" id="testimonials">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">What Our Users Say</h2>
+                <p class="lead text-muted">Hear from students and educators using EduTrade</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <div class="text-center">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70'%3E%3Ccircle cx='35' cy='35' r='35' fill='%234e73df'/%3E%3Cpath fill='%23ffffff' d='M32.5 22L20 42.5H27.5L25 55L42.5 32.5H32.5L37.5 22Z'/%3E%3C/svg%3E" alt="User" class="testimonial-avatar">
+                        </div>
+                        <p class="testimonial-text">"EduTrade helped me find study partners for my difficult courses. The resource sharing feature saved me so much time and money!"</p>
+                        <div class="testimonial-author text-center">
+                            <h5 class="mb-0">Johnson</h5>
+                            <p class="text-muted">Computer Science Student</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <div class="text-center">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70'%3E%3Ccircle cx='35' cy='35' r='35' fill='%236f42c1'/%3E%3Ccircle cx='35' cy='26' r='10' fill='%23ffffff'/%3E%3Cpath fill='%23ffffff' d='M35 40c-8.284 0-15 6.716-15 15h30c0-8.284-6.716-15-15-15z'/%3E%3C/svg%3E" alt="User" class="testimonial-avatar">
+                        </div>
+                        <p class="testimonial-text">"As a graduate student, I've been able to offset some of my educational expenses by tutoring through TeachMate. It's been rewarding both financially and academically."</p>
+                        <div class="testimonial-author text-center">
+                            <h5 class="mb-0">Nimisha</h5>
+                            <p class="text-muted">Physics Graduate Student</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <div class="text-center">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70'%3E%3Ccircle cx='35' cy='35' r='35' fill='%2336b9cc'/%3E%3Ccircle cx='35' cy='26' r='10' fill='%23ffffff'/%3E%3Cpath fill='%23ffffff' d='M35 40c-8.284 0-15 6.716-15 15h30c0-8.284-6.716-15-15-15z'/%3E%3C/svg%3E" alt="User" class="testimonial-avatar">
+                        </div>
+                        <p class="testimonial-text">"The DoubtDesk feature has transformed how I support my students. I can now address common questions outside class hours, making our in-person time more productive."</p>
+                        <div class="testimonial-author text-center">
+                            <h5 class="mb-0">Professor Davis</h5>
+                            <p class="text-muted">Mathematics Department</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="display-5 fw-bold mb-3">Ready to Transform Your Learning Experience?</h2>
+            <p class="lead mb-4">Join thousands of students and educators already using EduTrade</p>
+            <a href="{% url 'register' %}" class="btn btn-light btn-lg">Create Your Free Account</a>
+        </div>
+    </section>
+
     <!-- Footer -->
-    <footer class="text-center bg-dark text-white py-3 .bg-gradient">
-        &copy; 2025 EduTrade. All rights reserved.
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h4 class="fw-bold"><i class="fas fa-graduation-cap me-2"></i>EduTrade</h4>
+                    <p>Connecting learners and educators to share knowledge, resources, and opportunities.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4 mb-4">
+                    <h5>Stay Updated</h5>
+                    <p>Subscribe to our newsletter for the latest updates</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="mb-0">&copy; 2025 EduTrade. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                document.querySelector('.navbar').style.padding = '0.5rem 0';
+                document.querySelector('.navbar').style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            } else {
+                document.querySelector('.navbar').style.padding = '1rem 0';
+                document.querySelector('.navbar').style.boxShadow = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

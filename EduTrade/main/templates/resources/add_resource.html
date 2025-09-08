@@ -1,0 +1,36 @@
+{% extends "main/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow p-4">
+        <h2 class="mb-3">📚 Add a Resource</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.title.label_tag }}  
+                {{ form.title }}
+            </div>
+            <div class="mb-3">
+                {{ form.description.label_tag }}  
+                {{ form.description }}
+            </div>
+            <div class="mb-3">
+                {{ form.category.label_tag }}  
+                {{ form.category }}
+            </div>
+            <div class="mb-3">
+                {{ form.image.label_tag }}  
+                {{ form.image }}
+            </div>
+            <div class="mb-3">
+                {{ form.contact_info.label_tag }}  
+                {{ form.contact_info }}
+            </div>
+            <div class="mb-3">
+                {{ form.exchange_type.label_tag }}  
+                {{ form.exchange_type }}
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

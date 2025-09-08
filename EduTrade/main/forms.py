@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import CustomUser, TutorProfile,Course
+from .models import CustomUser, TutorProfile,Course,Resource
 
 # Form for user login — we'll use Django's built-in AuthenticationForm in views
 
@@ -29,3 +29,8 @@ class CourseForm(forms.ModelForm):
             'video_link': forms.URLInput(attrs={'class': 'form-control'}),
             'material': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+        # Resource Exchange Form
+class ResourceForm(forms.ModelForm):
+    class Meta:
+        model = Resource
+        fields = ['title', 'description', 'category', 'image', 'contact_info', 'exchange_type']

@@ -52,3 +52,23 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.student.username} enrolled in {self.course.title}"
+# Step 5: Resource Exchange Model
+class Resource(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    category = models.CharField(max_length=100, choices=[
+        ('book', 'Book'),
+        ('notes', 'Notes'),
+        ('other', 'Other'),
+    ])
+    image = models.ImageField(upload_to='resources/', blank=True, null=True)
+    contact_info = models.CharField(max_length=200, help_text="Email or phone")
+    exchange_type = models.CharField(max_length=20, choices=[
+        ('trade', 'Trade'),
+        ('donation', 'Donation'),
+    ])
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

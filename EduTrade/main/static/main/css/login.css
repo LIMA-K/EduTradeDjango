@@ -1,0 +1,80 @@
+/* Card Styling */
+.login-card {
+    width: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Header with gradient */
+.login-header {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    padding: 20px;
+    border-bottom: none;
+}
+
+/* Button with gradient */
+.btn-login {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.btn-login:hover {
+    opacity: 0.9;
+    color: white;
+}
+
+/* Input fields */
+.input-group-text {
+    background-color: #f1f1f1;
+    border: none;
+}
+
+input.form-control {
+    border-left: none;
+}
+/* Divider with text */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+
+.divider:not(:empty)::before {
+    margin-right: .75em;
+}
+.divider:not(:empty)::after {
+    margin-left: .75em;
+}
+
+/* Social buttons */
+.btn-google {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #444;
+    font-weight: 500;
+}
+.btn-google:hover {
+    background: #f7f7f7;
+}
+
+.btn-facebook {
+    background: #3b5998;
+    color: white;
+    font-weight: 500;
+}
+.btn-facebook:hover {
+    background: #2d4373;
+    color: white;
+}

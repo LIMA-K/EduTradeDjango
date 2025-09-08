@@ -3,8 +3,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import TutorRegisterForm,TutorProfileForm,CourseForm
-from .models import Course ,Enrollment
+from .forms import TutorRegisterForm,TutorProfileForm,CourseForm,ResourceForm
+from .models import Course ,Enrollment,Resource
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 # Home view
@@ -130,3 +130,32 @@ def enroll_course(request, course_id):
         messages.success(request, f"✅ You have successfully enrolled in {course.title}!")
 
     return redirect("available_courses")  # go back to the course list
+    # Add a new resource
+@login_required
+def add_resource(request):
+    if request.method == 'POST':
+        form = ResourceForm(request.POST, request.FILES)
+        if form.is_valid():
+            resource = form.save(commit=False)
+            resource.owner = request.user
+            resource.save()
+            return redirect('resource_list')
+    else:
+        form = ResourceForm()
+    return render(request, 'resources/add_resource.html', {'form': form})
+
+# List all resources
+@login_required
+def resource_list(request):
+    query = request.GET.get('q')
+    if query:
+        resources = Resource.objects.filter(title__icontains=query)
+    else:
+        resources = Resource.objects.all().order_by('-created_at')
+    return render(request, 'resources/resource_list.html', {'resources': resources})
+
+# View a single resource
+@login_required
+def resource_detail(request, pk):
+    resource = get_object_or_404(Resource, pk=pk)
+    return render(request, 'resources/resource_detail.html', {'resource': resource})

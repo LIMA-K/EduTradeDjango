@@ -1,0 +1,19 @@
+{% extends "main/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow p-4">
+        <h2>{{ resource.title }}</h2>
+        <p><strong>Description:</strong> {{ resource.description }}</p>
+        <p><strong>Category:</strong> {{ resource.get_category_display }}</p>
+        <p><strong>Type:</strong> {{ resource.get_exchange_type_display }}</p>
+        <p><strong>Contact:</strong> {{ resource.contact_info }}</p>
+        <p><strong>Uploaded by:</strong> {{ resource.owner.username }}</p>
+
+        {% if resource.image %}
+            <img src="{{ resource.image.url }}" alt="{{ resource.title }}" class="img-fluid rounded mt-3">
+        {% endif %}
+
+        <a href="{% url 'resource_list' %}" class="btn btn-secondary mt-3">⬅ Back to Resources</a>
+    </div>
+</div>
+{% endblock %}
