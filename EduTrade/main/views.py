@@ -15,14 +15,15 @@ def login_view(request):
 # User login view using Django's built-in AuthenticationForm
 def user_login(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-            return redirect('dashboard')  # or wherever you want
-    else:
-        form = AuthenticationForm()
-    return render(request, 'main/login.html', {'form': form})
+            return redirect('dashboard')
+        else:
+            messages.error(request, "Invalid username or password")
+    return render(request, 'main/login.html')
     # Logout view
 def user_logout(request):
     logout(request)
