@@ -17,5 +17,7 @@ urlpatterns = [
     path('resources/', views.resource_list, name='resource_list'),
     path('resources/add/', views.add_resource, name='add_resource'),
     path('resources/<int:pk>/', views.resource_detail, name='resource_detail'),
+    path('dashboard/tutor/profile/', views.tutor_profile, name='tutor_profile')
+
 
 ]

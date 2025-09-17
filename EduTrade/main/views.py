@@ -1,11 +1,15 @@
 
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import TutorRegisterForm,TutorProfileForm,CourseForm,ResourceForm
-from .models import Course ,Enrollment,Resource
 from django.contrib.auth.decorators import login_required
+
+from .forms import TutorRegisterForm, TutorProfileForm, CourseForm, ResourceForm
+from .models import Course, Enrollment, Resource
+
+User = get_user_model()
 # Create your views here.
 # Home view
 def home(request):
@@ -15,14 +19,33 @@ def login_view(request):
 # User login view using Django's built-in AuthenticationForm
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').strip()
         password = request.POST.get('password')
+
+        # 1️⃣ Try to authenticate existing user
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user:
             login(request, user)
             return redirect('dashboard')
-        else:
-            messages.error(request, "Invalid username or password")
+
+        # 2️⃣ If user does not exist, auto-create as student
+        if not User.objects.filter(username=username).exists():
+            new_user = User.objects.create(
+                username=username,
+                password=make_password(password),   # always hash the password
+                is_student=True,                   # default student role
+                is_tutor=False
+            )
+            login(request, new_user)
+            messages.success(request,
+                f"Welcome {username}! A student account has been created for you."
+            )
+            return redirect('dashboard')
+
+        # 3️⃣ Username exists but password is wrong
+        messages.error(request, "Invalid password for this username")
+
+    # GET request or failed POST
     return render(request, 'main/login.html')
     # Logout view
 def user_logout(request):
@@ -36,6 +59,7 @@ def tutor_register(request):
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save(commit=False)
             user.is_tutor = True  # Mark as tutor
+            user.set_password(user_form.cleaned_data['password1'])
             user.save()
             
                      # Save the tutor profile and link it to the user
@@ -64,6 +88,8 @@ def dashboard_view(request):
         'user': user,
         'is_tutor': is_tutor
     })
+
+    
 # Course upload view for tutors
 @login_required
 def upload_course(request):
@@ -160,3 +186,7 @@ def resource_list(request):
 def resource_detail(request, pk):
     resource = get_object_or_404(Resource, pk=pk)
     return render(request, 'resources/resource_detail.html', {'resource': resource})
+
+@login_required
+def tutor_profile(request):
+    return render(request, 'tutor/profile.html')

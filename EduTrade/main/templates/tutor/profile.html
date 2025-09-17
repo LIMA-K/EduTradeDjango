@@ -1,0 +1,198 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Tutor Profile | EduTrade{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/tutor_profile.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <!-- Profile Header -->
+    <div class="row mb-5">
+        <div class="col-md-4 text-center">
+            <img src="{% if tutor.profile_picture %}{{ tutor.profile_picture.url }}{% else %}{% static 'main/images/default_profile.png' %}{% endif %}" 
+                 alt="{{ tutor.user.get_full_name }}" class="profile-img rounded-circle shadow mb-3">
+            <h3>{{ tutor.user.get_full_name }}</h3>
+            <p class="text-muted">{{ tutor.subject }} Tutor</p>
+            <div class="rating mb-2">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= tutor.average_rating %}
+                        <i class="fas fa-star text-warning"></i>
+                    {% else %}
+                        <i class="far fa-star text-warning"></i>
+                    {% endif %}
+                {% endfor %}
+                <span>({{ tutor.review_count }})</span>
+            </div>
+            <p class="text-muted"><i class="fas fa-map-marker-alt me-2"></i>{{ tutor.location }}</p>
+        </div>
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">About Me</h5>
+                </div>
+                <div class="card-body">
+                    <p>{{ tutor.bio }}</p>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-graduation-cap me-2"></i>Education:</strong> {{ tutor.education }}</p>
+                            <p><strong><i class="fas fa-briefcase me-2"></i>Experience:</strong> {{ tutor.experience }} years</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-clock me-2"></i>Response Time:</strong> {{ tutor.response_time }} hours</p>
+                            <p><strong><i class="fas fa-calendar me-2"></i>Available:</strong> {{ tutor.availability }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-5">
+        <div class="col-md-4 mb-3">
+            <div class="card stat-card shadow text-center">
+                <div class="card-body">
+                    <h2 class="display-4">{{ enrolled_students_count }}</h2>
+                    <p class="text-muted">Enrolled Students</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card stat-card shadow text-center">
+                <div class="card-body">
+                    <h2 class="display-4">{{ tutor.completed_sessions }}</h2>
+                    <p class="text-muted">Completed Sessions</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card stat-card shadow text-center">
+                <div class="card-body">
+                    <h2 class="display-4">{{ materials_count }}</h2>
+                    <p class="text-muted">Learning Materials</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Materials Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Learning Materials</h5>
+                    <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#materialsModal">
+                        View All
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for material in recent_materials %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card material-card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ material.title }}</h6>
+                                    <p class="card-text text-muted small">{{ material.description|truncatewords:15 }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-primary">{{ material.file_type }}</span>
+                                        <small class="text-muted">{{ material.upload_date|date:"M d, Y" }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12 text-center py-4">
+                            <p class="text-muted">No materials available yet.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Students Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Enrolled Students</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Enrollment Date</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for enrollment in enrolled_students %}
+                                <tr>
+                                    <td>{{ enrollment.student.user.get_full_name }}</td>
+                                    <td>{{ enrollment.enrollment_date|date:"M d, Y" }}</td>
+                                    <td>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar" role="progressbar" style="width: {{ enrollment.progress }}%;" 
+                                                 aria-valuenow="{{ enrollment.progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>{{ enrollment.progress }}%</small>
+                                    </td>
+                                    <td>
+                                        {% if enrollment.is_active %}
+                                        <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">Completed</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center py-4">No students enrolled yet.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Materials Modal -->
+<div class="modal fade" id="materialsModal" tabindex="-1" aria-labelledby="materialsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="materialsModalLabel">All Learning Materials</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="list-group">
+                    {% for material in all_materials %}
+                    <a href="{{ material.file.url }}" class="list-group-item list-group-item-action" download>
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ material.title }}</h6>
+                            <small class="text-muted">{{ material.upload_date|date:"M d, Y" }}</small>
+                        </div>
+                        <p class="mb-1">{{ material.description }}</p>
+                        <small class="text-muted">Type: {{ material.file_type }} | Size: {{ material.file.size|filesizeformat }}</small>
+                    </a>
+                    {% empty %}
+                    <div class="text-center py-4">
+                        <p class="text-muted">No materials available yet.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

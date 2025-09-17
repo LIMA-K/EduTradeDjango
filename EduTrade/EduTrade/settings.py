@@ -132,5 +132,5 @@ from pathlib import Path
 import os
 
 MEDIA_URL = '/course_materials/'
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_ROOT = os.path.join(BASE_DIR, 'course_materials')
