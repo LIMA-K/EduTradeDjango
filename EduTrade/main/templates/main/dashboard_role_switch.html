@@ -1,0 +1,79 @@
+{% extends 'main/base.html' %}
+
+{% block extra_css %}
+<style>
+/* Container styling */
+.role-switch-container {
+    background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+    padding: 40px 30px;
+    border-radius: 20px;
+    max-width: 600px;
+    margin: 50px auto;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Welcome text */
+.role-switch-container h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.role-switch-container p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* Buttons styling */
+.role-switch-container .btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 50px;
+    margin: 10px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.role-switch-container .btn-primary {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    border: none;
+    color: #fff;
+}
+
+.role-switch-container .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.role-switch-container .btn-success {
+    background: linear-gradient(45deg, #28a745, #218838);
+    border: none;
+    color: #fff;
+}
+
+.role-switch-container .btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="role-switch-container text-center">
+    <h2>Welcome, {{ request.user.username }}!</h2>
+    <p>Current Role: <strong>{{ current_role|capfirst }}</strong></p>
+
+    <div class="mt-4">
+        {% if current_role == 'student' %}
+            <a href="{% url 'switch_role' 'tutor' %}" class="btn btn-primary">Switch to Tutor View</a>
+            <a href="{% url 'student_dashboard' %}" class="btn btn-success">Go to Student Dashboard</a>
+        {% elif current_role == 'tutor' %}
+            <a href="{% url 'switch_role' 'student' %}" class="btn btn-primary">Switch to Student View</a>
+            <a href="{% url 'tutor_dashboard' %}" class="btn btn-success">Go to Tutor Dashboard</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

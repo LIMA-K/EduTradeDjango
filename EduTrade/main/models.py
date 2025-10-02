@@ -1,15 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
-# Step 1: Custom User Model with Roles
+
+# -------------------
+# Step 1: Custom User
+# -------------------
 class CustomUser(AbstractUser):
-    is_tutor = models.BooleanField(default=False)
-    is_student = models.BooleanField(default=True)  # All users are considered students by default
+    is_tutor = models.BooleanField(default=False)     # user can become tutor later
+    is_student = models.BooleanField(default=True)    # always student by default
+    current_role = models.CharField(
+        max_length=10,
+        choices=[('student', 'Student'), ('tutor', 'Tutor')],
+        default='student'
+    )
 
     def __str__(self):
         return self.username
 
-# Step 2: Tutor Profile (only for tutors)
+
+# -------------------
+# Step 2: Tutor Profile
+# -------------------
 DEPARTMENT_CHOICES = [
     ('MCA', 'Master of Computer Applications'),
     ('BCA', 'Bachelor of Computer Applications'),
@@ -22,26 +33,41 @@ DEPARTMENT_CHOICES = [
 ]
 
 class TutorProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-  
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name='tutor_profile'
+    )
     contact_info = models.CharField(max_length=100, blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
     department = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES)
 
     def __str__(self):
         return f"{self.user.username} - Tutor"
-# Step 3: Course Model
+
+
+# -------------------
+# Step 3: Course
+# -------------------
 class Course(models.Model):
-    tutor = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'is_tutor': True})
+    tutor = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        limit_choices_to={'is_tutor': True}  # only tutors can create courses
+    )
     title = models.CharField(max_length=200)
     description = models.TextField()
     video_link = models.URLField(blank=True, null=True)
-    material = models.FileField(upload_to='', blank=True, null=True)
+    material = models.FileField(upload_to='materials/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
-# Step 4: Enrollment Model
+
+
+# -------------------
+# Step 4: Enrollment
+# -------------------
 class Enrollment(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -52,7 +78,11 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.student.username} enrolled in {self.course.title}"
-# Step 5: Resource Exchange Model
+
+
+# -------------------
+# Step 5: Resource Exchange
+# -------------------
 class Resource(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)

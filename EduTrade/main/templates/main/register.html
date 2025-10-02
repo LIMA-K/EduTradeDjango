@@ -1,12 +1,14 @@
 {% extends 'main/base.html' %}
 
 {% load static %}
-
 {% load form_filters %}
+
 {% block title %}Register as Tutor | EduTrade{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
 {% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
@@ -40,14 +42,23 @@
                         </div>
                     {% endif %}
 
-                    <h5 class="text-center">Account Details</h5>
-                    {% for field in user_form %}
-                        <div class="mb-3 text-center">
-                            {{ field.label_tag }}
-                            {{ field|add_class:"form-control w-75 mx-auto" }}
-                        </div>
-                    {% endfor %}
+                    <!-- Account Details -->
+                    {% if not request.user.is_authenticated %}
+                        <h5 class="text-center">Account Details</h5>
+                        {% for field in user_form %}
+                            <div class="mb-3 text-center">
+                                {{ field.label_tag }}
+                                {{ field|add_class:"form-control w-75 mx-auto" }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center text-info">
+                            You are already logged in as <strong>{{ request.user.username }}</strong>.<br>
+                            Only fill in the profile details to become a tutor.
+                        </p>
+                    {% endif %}
 
+                    <!-- Tutor Profile -->
                     <h5 class="text-center mt-4">Tutor Profile</h5>
                     {% for field in profile_form %}
                         <div class="mb-3 text-center">
@@ -68,4 +79,10 @@
     </div>
 </div>
 {% endblock %}
-
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });

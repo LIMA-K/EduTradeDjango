@@ -1,198 +1,325 @@
 {% extends 'main/base.html' %}
+
 {% load static %}
-{% block title %}Tutor Profile | EduTrade{% endblock %}
+
+{% block title %}Tutor Dashboard | EduTrade{% endblock %}
+
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'main/css/tutor_profile.css' %}">
+<link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+/* Name board styling */
+.name-board {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    margin-bottom: 30px;
+}
+.name-board h2 {
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 15px;
+}
+.stat-item {
+    background-color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.stat-item h4 {
+    margin: 0;
+    font-weight: 600;
+}
+.stat-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+.course-card {
+    border-radius: 15px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+.course-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Buttons styling */
+.dashboard-buttons {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.dashboard-buttons a {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+.name-board .department {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.85;
+    word-wrap: break-word; /* wrap long names */
+}
+.name-board {
+    background: linear-gradient(135deg, #0f2380ff, #25dcfcff); /* gradient background */
+    color: #fff; /* text color */
+    padding: 20px 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    max-width: 300px;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: transform 0.3s ease;
+}
+
+.name-board:hover {
+    transform: scale(1.05); /* subtle zoom on hover */
+}
+
+.name-board h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.name-board .department {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.85;
+}
+/* Section title styling */
+.section-title {
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    position: relative;
+}
+
+.section-title::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #28a745; /* green underline */
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+/* Resource card styling */
+.course-card {
+    background: #fff;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    text-align: center;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+.course-card img {
+    border-radius: 10px;
+    max-height: 180px;
+    object-fit: cover;
+}
+
+.resource-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 10px 0 5px;
+    color: #222;
+}
+
+.resource-contact {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Dashboard buttons styling */
+.dashboard-buttons .btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.dashboard-buttons .btn-success {
+    background: linear-gradient(45deg, #282aa7b6, #350541ff);
+    border: none;
+}
+
+.dashboard-buttons .btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+/* Section Title */
+.section-title {
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    margin: 40px 0 20px;
+    color: #333;
+    position: relative;
+}
+.section-title::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #28a745;
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+/* General Course/Resource Card */
+.course-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.course-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+}
+
+/* Course Card Specific */
+.course-card .course-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #218838;
+    margin-bottom: 10px;
+}
+
+.course-card .course-description {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Resource Card Specific */
+.resource-card img {
+    border-radius: 12px;
+    max-height: 180px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.resource-card:hover img {
+    transform: scale(1.05);
+}
+
+.resource-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    margin: 10px 0 5px;
+}
+
+.resource-contact {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Buttons Styling */
+.dashboard-buttons .btn {
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.dashboard-buttons .btn-success {
+    background: linear-gradient(45deg, #28a745, #218838);
+    border: none;
+}
+
+.dashboard-buttons .btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+
+</style>
 {% endblock %}
+
 {% block content %}
-<div class="container py-5">
-    <!-- Profile Header -->
-    <div class="row mb-5">
-        <div class="col-md-4 text-center">
-            <img src="{% if tutor.profile_picture %}{{ tutor.profile_picture.url }}{% else %}{% static 'main/images/default_profile.png' %}{% endif %}" 
-                 alt="{{ tutor.user.get_full_name }}" class="profile-img rounded-circle shadow mb-3">
-            <h3>{{ tutor.user.get_full_name }}</h3>
-            <p class="text-muted">{{ tutor.subject }} Tutor</p>
-            <div class="rating mb-2">
-                {% for i in "12345" %}
-                    {% if forloop.counter <= tutor.average_rating %}
-                        <i class="fas fa-star text-warning"></i>
-                    {% else %}
-                        <i class="far fa-star text-warning"></i>
-                    {% endif %}
-                {% endfor %}
-                <span>({{ tutor.review_count }})</span>
-            </div>
-            <p class="text-muted"><i class="fas fa-map-marker-alt me-2"></i>{{ tutor.location }}</p>
-        </div>
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">About Me</h5>
-                </div>
-                <div class="card-body">
-                    <p>{{ tutor.bio }}</p>
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            <p><strong><i class="fas fa-graduation-cap me-2"></i>Education:</strong> {{ tutor.education }}</p>
-                            <p><strong><i class="fas fa-briefcase me-2"></i>Experience:</strong> {{ tutor.experience }} years</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong><i class="fas fa-clock me-2"></i>Response Time:</strong> {{ tutor.response_time }} hours</p>
-                            <p><strong><i class="fas fa-calendar me-2"></i>Available:</strong> {{ tutor.availability }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Stats Cards -->
-    <div class="row mb-5">
-        <div class="col-md-4 mb-3">
-            <div class="card stat-card shadow text-center">
-                <div class="card-body">
-                    <h2 class="display-4">{{ enrolled_students_count }}</h2>
-                    <p class="text-muted">Enrolled Students</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card stat-card shadow text-center">
-                <div class="card-body">
-                    <h2 class="display-4">{{ tutor.completed_sessions }}</h2>
-                    <p class="text-muted">Completed Sessions</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card stat-card shadow text-center">
-                <div class="card-body">
-                    <h2 class="display-4">{{ materials_count }}</h2>
-                    <p class="text-muted">Learning Materials</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Materials Section -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow mb-4">
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Learning Materials</h5>
-                    <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#materialsModal">
-                        View All
-                    </button>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        {% for material in recent_materials %}
-                        <div class="col-md-4 mb-3">
-                            <div class="card material-card h-100">
-                                <div class="card-body">
-                                    <h6 class="card-title">{{ material.title }}</h6>
-                                    <p class="card-text text-muted small">{{ material.description|truncatewords:15 }}</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="badge bg-primary">{{ material.file_type }}</span>
-                                        <small class="text-muted">{{ material.upload_date|date:"M d, Y" }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% empty %}
-                        <div class="col-12 text-center py-4">
-                            <p class="text-muted">No materials available yet.</p>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container mt-4">
+    <!-- Dashboard Buttons -->
+    
 
-    <!-- Students Table -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Enrolled Students</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Student Name</th>
-                                    <th>Enrollment Date</th>
-                                    <th>Progress</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for enrollment in enrolled_students %}
-                                <tr>
-                                    <td>{{ enrollment.student.user.get_full_name }}</td>
-                                    <td>{{ enrollment.enrollment_date|date:"M d, Y" }}</td>
-                                    <td>
-                                        <div class="progress" style="height: 8px;">
-                                            <div class="progress-bar" role="progressbar" style="width: {{ enrollment.progress }}%;" 
-                                                 aria-valuenow="{{ enrollment.progress }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <small>{{ enrollment.progress }}%</small>
-                                    </td>
-                                    <td>
-                                        {% if enrollment.is_active %}
-                                        <span class="badge bg-success">Active</span>
-                                        {% else %}
-                                        <span class="badge bg-secondary">Completed</span>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="4" class="text-center py-4">No students enrolled yet.</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Tutor Name Board -->
+    
+ <div class="name-board">
+    <h2>
+        <i class="fas fa-user-graduate" style="margin-right:8px; color:#fff;"></i>
+        {{ request.user.username }}
+    </h2>
+    {% if request.user.tutor_profile %}
+        <p class="department">{{ request.user.tutor_profile.get_department_display }}</p>
+    {% else %}
+        <p class="department">Department not set</p>
+    {% endif %}
+    
 </div>
 
-<!-- Materials Modal -->
-<div class="modal fade" id="materialsModal" tabindex="-1" aria-labelledby="materialsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="materialsModalLabel">All Learning Materials</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    
+
+<!-- Courses Section -->
+<h3 class="section-title">Your Courses</h3>
+<div class="row">
+    {% for course in courses %}
+    <div class="col-md-4 mb-4">
+        <div class="card course-card p-3">
+            <div class="card-header text-center">
+                <h5 class="course-title">{{ course.title }}</h5>
             </div>
-            <div class="modal-body">
-                <div class="list-group">
-                    {% for material in all_materials %}
-                    <a href="{{ material.file.url }}" class="list-group-item list-group-item-action" download>
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">{{ material.title }}</h6>
-                            <small class="text-muted">{{ material.upload_date|date:"M d, Y" }}</small>
-                        </div>
-                        <p class="mb-1">{{ material.description }}</p>
-                        <small class="text-muted">Type: {{ material.file_type }} | Size: {{ material.file.size|filesizeformat }}</small>
-                    </a>
-                    {% empty %}
-                    <div class="text-center py-4">
-                        <p class="text-muted">No materials available yet.</p>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div class="card-body">
+                <p class="course-description">{{ course.description|truncatewords:20 }}</p>
             </div>
         </div>
     </div>
+    {% empty %}
+    <p>No courses uploaded yet.</p>
+    {% endfor %} 
+
 </div>
+
+<!-- Resources Section -->
+<h3 class="section-title">Your Resources</h3>
+<div class="row">
+    {% for resource in resources %}
+    <div class="col-md-4 mb-4">
+        <div class="card course-card resource-card p-3">
+            <div class="resource-img">
+                <img src="{{ resource.image.url }}" class="img-fluid" alt="Resource">
+            </div>
+            <div class="resource-content text-center">
+                <h5 class="resource-title">{{ resource.title }}</h5>
+                <p class="resource-contact">Contact: {{ resource.contact }}</p>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No resources listed yet.</p>
+    {% endfor %}
+</div>
+
 {% endblock %}

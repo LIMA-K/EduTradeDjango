@@ -1,24 +1,50 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from .models import CustomUser, TutorProfile,Course,Resource
+from .models import CustomUser, TutorProfile, Course, Resource
 
-# Form for user login — we'll use Django's built-in AuthenticationForm in views
+# ------------------------------
+# Tutor Registration Form
+# ------------------------------
+class TutorRegisterForm(forms.ModelForm):
+    password1 = forms.CharField(
+        widget=forms.PasswordInput, 
+        required=False, 
+        label="Password"
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput, 
+        required=False, 
+        label="Confirm Password"
+    )
 
-# Tutor User Registration Form (CustomUser)
-class TutorRegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-    
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password1', 'password2']
-        # TutorProfile Form (extra fields like phone, dept)
+        fields = ['username', 'email']
+
+    def clean(self):
+        """
+        Validate that both passwords match if provided.
+        Password is optional for existing users.
+        """
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+
+        if password1 or password2:
+            if password1 != password2:
+                raise forms.ValidationError("Passwords do not match!")
+        return cleaned_data
+
+# ------------------------------
+# Tutor Profile Form
+# ------------------------------
 class TutorProfileForm(forms.ModelForm):
     class Meta:
         model = TutorProfile
-        fields = ['phone_number', 'department']
+        fields = ['contact_info', 'phone_number', 'department']
 
+# ------------------------------
 # Course Form
+# ------------------------------
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
@@ -29,7 +55,10 @@ class CourseForm(forms.ModelForm):
             'video_link': forms.URLInput(attrs={'class': 'form-control'}),
             'material': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
-        # Resource Exchange Form
+
+# ------------------------------
+# Resource Form
+# ------------------------------
 class ResourceForm(forms.ModelForm):
     class Meta:
         model = Resource
