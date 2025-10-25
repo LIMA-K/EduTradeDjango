@@ -1,0 +1,89 @@
+{% extends 'main/base.html' %}
+
+{% block extra_css %}
+<style>
+/* Page background */
+.qna-page {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    min-height: 100vh;
+    padding: 50px 20px;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card container */
+.qna-card {
+    background: #fff;
+    color: #333;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 700px;
+    margin: 0 auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.qna-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+}
+
+/* Headings */
+.qna-card h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.qna-card p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Textarea */
+.qna-card textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    border: none;
+    resize: vertical;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Button */
+.btn-post {
+    display: inline-block;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-post:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    color: #fff;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="qna-page">
+    <div class="qna-card">
+        <h2>Answer Question</h2>
+        <p><b>Q:</b> {{ question.content }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <textarea name="content" placeholder="Write your answer..." required></textarea>
+            <button type="submit" class="btn-post">Post Answer</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

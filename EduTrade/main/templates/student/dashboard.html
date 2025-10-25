@@ -1,99 +1,98 @@
-<!-- templates/main/dashboard.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>EduTrade Dashboard</title>
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}EduTrade Dashboard{% endblock %}
+{% block content %}
 
 <div class="container mt-5">
-    <div class="text-center mb-4">
-        <h2 class="fw-bold">Welcome to EduTrade, {{ user.username }}!</h2>
+
+    <!-- Dashboard Header -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-primary">
+            Welcome to EduTrade, {{ user.username }}!
+        </h2>
         {% if is_tutor %}
             <p class="lead text-success">You are registered as a <strong>Tutor</strong>.</p>
         {% else %}
-            <p class="lead text-primary">You are logged in as a <strong>Student</strong>.</p>
+            <p class="lead text-info">You are logged in as a <strong>Student</strong>.</p>
         {% endif %}
     </div>
 
-    {% if is_tutor %}
-        <h4 class="mb-3">Tutor Dashboard</h4>
-        <div class="row justify-content-center">
-            <!-- Upload a Course -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">📚 Upload a Course</h5>
-                        <a href="{% url 'upload_course' %}" class="btn btn-primary mt-2">Upload</a>
+    <!-- Dashboard Cards -->
+    <div class="row justify-content-center g-4">
+
+        {% if is_tutor %}
+            <!-- Tutor Dashboard -->
+            <div class="col-md-4">
+                <div class="card text-center shadow border-0">
+                    <div class="card-body">
+                        <i class="fas fa-book fa-2x text-primary mb-3"></i>
+                        <h5 class="card-title fw-semibold">Upload a Course</h5>
+                        <a href="{% url 'upload_course' %}" class="btn btn-primary mt-3 w-75">Upload</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Manage Courses -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">👨‍🏫 Manage Your Courses</h5>
-                        <a href="{% url 'manage_course' %}" class="btn btn-secondary mt-2">Manage</a>
+            <div class="col-md-4">
+                <div class="card text-center shadow border-0">
+                    <div class="card-body">
+                        <i class="fas fa-chalkboard-teacher fa-2x text-success mb-3"></i>
+                        <h5 class="card-title fw-semibold">Manage Courses</h5>
+                        <a href="{% url 'manage_course' %}" class="btn btn-success mt-3 w-75">Manage</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Profile -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">👤 View Profile</h5>
-                        <a href="{% url 'tutor_profile' %}" class="btn btn-info">Profile</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% else %}
-        <h4 class="mb-3">Student Dashboard</h4>
-        <div class="row justify-content-center">
-            <!-- View Available Courses -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">🎓 View Available Courses</h5>
-                        <p class="text-muted">Register as a tutor to upload and manage courses.</p>
-                        <a href="{% url 'available_courses' %}" class="btn btn-success">View</a>
+            <div class="col-md-4">
+                <div class="card text-center shadow border-0">
+                    <div class="card-body">
+                        <i class="fas fa-user fa-2x text-info mb-3"></i>
+                        <h5 class="card-title fw-semibold">View Profile</h5>
+                        <a href="{% url 'tutor_profile' %}" class="btn btn-info mt-3 w-75">Profile</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Exchange Books -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">🔄 Exchange Books & Materials</h5>
-                        <p class="text-muted">Register as a tutor to upload and manage courses.</p>
-                        <a href="{% url 'resource_list' %}" class="btn btn-info">Exchange</a>
+        {% else %}
+            <!-- Student Dashboard -->
+            <div class="col-md-4">
+                <div class="card text-center shadow border-0">
+                    <div class="card-body">
+                        <i class="fas fa-graduation-cap fa-2x text-success mb-3"></i>
+                        <h5 class="card-title fw-semibold">View Available Courses</h5>
+                        <a href="{% url 'available_courses' %}" class="btn btn-success mt-3 w-75">View</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Become a Tutor -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm ">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">👨‍🏫 Want to become a Tutor?</h5>
-                        <p class="text-muted">Register as a tutor to upload and manage courses.</p>
-                        <a href="{% url 'register' %}" class="btn btn-warning">Register as Tutor</a>
+            <div class="col-md-4">
+                <div class="card text-center shadow border-0">
+                    <div class="card-body">
+                        <i class="fas fa-exchange-alt fa-2x text-info mb-3"></i>
+                        <h5 class="card-title fw-semibold">Exchange Books & Materials</h5>
+                        <a href="{% url 'resource_list' %}" class="btn btn-info mt-3 w-75">Exchange</a>
                     </div>
                 </div>
             </div>
-        </div>
-    {% endif %}
 
-    <div class="text-center mt-4">
-        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+            <div class="col-md-4">
+                <div class="card text-center shadow border-0">
+                    <div class="card-body">
+                        <i class="fas fa-chalkboard-teacher fa-2x text-warning mb-3"></i>
+                        <h5 class="card-title fw-semibold">Become a Tutor</h5>
+                        <a href="{% url 'register' %}" class="btn btn-warning mt-3 w-75 text-white">Register as Tutor</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Logout Button -->
+    <div class="text-center mt-5">
+        <a href="{% url 'logout' %}" class="btn btn-danger btn-lg">
+            <i class="fas fa-sign-out-alt me-2"></i> Logout
+        </a>
     </div>
 </div>
 
-</body>
-</html>
+{% endblock %}

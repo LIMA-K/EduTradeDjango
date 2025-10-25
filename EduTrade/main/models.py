@@ -60,6 +60,7 @@ class Course(models.Model):
     video_link = models.URLField(blank=True, null=True)
     material = models.FileField(upload_to='materials/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    
 
     def __str__(self):
         return self.title
@@ -102,3 +103,23 @@ class Resource(models.Model):
 
     def __str__(self):
         return self.title
+# -------------------
+# Step 6: Q&A Section
+class Question(models.Model):
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='questions')
+    asked_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='questions')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Q: {self.content[:50]}"
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
+    answered_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='answers')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"A: {self.content[:50]}"

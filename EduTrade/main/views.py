@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from .forms import TutorRegisterForm, TutorProfileForm, CourseForm, ResourceForm
-from .models import CustomUser, TutorProfile, Course, Enrollment, Resource
+from .models import CustomUser, TutorProfile, Course, Enrollment, Resource,Question, Answer
 
 User = get_user_model()
 
@@ -25,7 +25,7 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('dashboard')
+            return redirect('dashboard')  # ✅ always go to dashboard
 
         # Auto-create student if user doesn't exist
         if not CustomUser.objects.filter(username=username).exists():
@@ -37,11 +37,12 @@ def user_login(request):
             )
             login(request, new_user)
             messages.success(request, f"Welcome {username}! A student account has been created.")
-            return redirect('main/dashboard')
+            return redirect('dashboard')  # ✅ fixed
 
         messages.error(request, "Invalid username or password")
 
     return render(request, 'main/login.html')
+
 
 # ------------------------------
 # User Logout
@@ -133,36 +134,34 @@ def tutor_register(request):
 def dashboard(request):
     user = request.user
 
-    # If user has both roles, let them choose
+    # Both roles: check session role
     if user.is_student and user.is_tutor:
-        current_role = user.current_role
+        current_role = request.session.get('current_role', 'student')  # default = student
         return render(request, 'main/dashboard_role_switch.html', {'current_role': current_role})
 
-    # If only tutor
     elif user.is_tutor:
         return redirect('tutor_dashboard')
 
-    # If only student
     else:
         return redirect('student_dashboard')
-        #switch role
+
+
 def switch_role(request, role):
     user = request.user
     if role == 'student' and user.is_student:
-        user.current_role = 'student'
-        user.save()
+        request.session['current_role'] = 'student'
         messages.success(request, "Switched to Student View")
         return redirect('dashboard')
 
     elif role == 'tutor' and user.is_tutor:
-        user.current_role = 'tutor'
-        user.save()
+        request.session['current_role'] = 'tutor'
         messages.success(request, "Switched to Tutor View")
         return redirect('tutor_dashboard')
 
     else:
         messages.error(request, "You do not have permission for this role")
         return redirect('dashboard')
+
 
 # ------------------------------
 # Tutor: Upload Course
@@ -333,3 +332,34 @@ def tutor_dashboard(request):
 @login_required
 def student_dashboard(request):
     return render(request, 'student/dashboard.html')
+@login_required
+def course_questions(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    questions = course.questions.all()
+
+    if request.method == "POST":
+        content = request.POST.get("content")
+        if content:
+            Question.objects.create(course=course, asked_by=request.user, content=content)
+            return redirect('course_questions', course_id=course_id)
+
+    return render(request, 'main/course_questions.html', {'course': course, 'questions': questions})
+# ------------------------------
+#Q&A: Add Answer
+
+@login_required
+def add_answer(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    if request.method == "POST":
+        content = request.POST.get("content")
+        if content:
+            Answer.objects.create(question=question, answered_by=request.user, content=content)
+            return redirect('course_questions', course_id=question.course.id)
+
+    return render(request, 'main/add_answer.html', {'question': question})
+# ------------------------------
+# Student: Course Detail View
+@login_required
+def course_detail(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    return render(request, 'student/course_detail.html', {'course': course})

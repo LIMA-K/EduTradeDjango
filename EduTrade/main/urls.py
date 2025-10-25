@@ -28,7 +28,13 @@ urlpatterns = [
     path('resources/', views.resource_list, name='resource_list'),
     path('resources/add/', views.add_resource, name='add_resource'),
     path('resources/<int:pk>/', views.resource_detail, name='resource_detail'),
+    path('courses/<int:course_id>/details/', views.course_detail, name='course_detail'),
 
     # Tutor profile
     path('dashboard/tutor/profile/', views.tutor_profile, name='tutor_profile'),
+   
+    #Q&A
+    path('courses/<int:course_id>/questions/', views.course_questions, name='course_questions'),
+    path('questions/<int:question_id>/answer/', views.add_answer, name='add_answer'),
+
 ]

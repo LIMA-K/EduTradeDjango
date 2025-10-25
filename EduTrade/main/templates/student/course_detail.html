@@ -1,0 +1,34 @@
+{% extends "main/base.html" %}
+{% load static %}  <!-- Add this line at the very top -->
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow p-4">
+        <h2>{{ course.title }}</h2>
+        <p><strong>Description:</strong> {{ course.description }}</p>
+        <p><strong>Tutor:</strong> {{ course.tutor.username }}</p>
+
+        <!-- PDF Material -->
+        {% if course.material %}
+<div class="mb-3">
+    <a href="{{ course.material.url }}" download>
+        <img src="{% static 'main/pdf_icon.png' %}" alt="Download PDF" 
+             style="width: 80px; height: auto; cursor: pointer; 
+                    transition: transform 0.2s, box-shadow 0.2s;">
+    </a>
+</div>
+{% endif %}
+
+        <!-- YouTube Video -->
+        {% if course.video_link %}
+            <p><strong>Video Lecture:</strong></p>
+            <div class="embed-responsive embed-responsive-16by9 mb-3">
+                <iframe src="https://www.youtube.com/embed/{{ course.video_link|slice:'https://youtu.be/' }}" 
+                        frameborder="0" allowfullscreen width="10%" height="70px"></iframe>
+            </div>
+        {% endif %}
+
+        <a href="{% url 'available_courses' %}" class="btn btn-secondary mt-3">⬅ Back to Courses</a>
+    </div>
+</div>
+{% endblock %}
