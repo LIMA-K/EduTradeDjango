@@ -64,13 +64,21 @@ project_root/
 ├── db.sqlite3            # Database file (default)
 ├── manage.py
 └── requirements.txt
+## 📸 Screenshots
+
+### 🏠 Home Page
+![Home Page](screenshots/homepage.png)
+
+### 👩‍🎓 Student Dashboard
+![Student Dashboard](screenshots/student_dashboard.png)
+
+### 👨‍🏫 Tutor Dashboard
+![Tutor Dashboard](screenshots/tutor_dashboard.png)
+
+### 📝 Tutor Registration / Role Switch
+![Tutor Registration](screenshots/tutor_registration.png)
 
 
-
-🤝 Contributing
-
-Contributions, feature requests, and bug reports are welcome!
-Feel free to fork this repository and submit a pull request.
 
 🧑‍💻 Author
 
