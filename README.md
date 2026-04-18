@@ -75,10 +75,11 @@ Feel free to fork this repository and submit a pull request.
 🧑‍💻 Author
 
 Lima
-📧 Email:lima20022003@gmail.com
+📧 Email:lima200422@gmail.com
 🌐 GitHub: @LIMA-K
+## 📌 Disclaimer
 
-📝 License
+This project was developed for academic purposes as part of the MCA curriculum.  
+It is not intended for commercial use or production deployment.
 
-This project is licensed under the MIT License — see the LICENSE
- file for details.
+
